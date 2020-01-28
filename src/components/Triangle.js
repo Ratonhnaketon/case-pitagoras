@@ -1,4 +1,9 @@
-import React, { useEffect, useRef } from 'react'
+import React, 
+{
+  useState,
+  useEffect,
+  useRef
+} from 'react'
 import '../assets/styles/components/Triangle.css' 
 import { drawPolygon } from '../utils'
 
@@ -9,6 +14,18 @@ function Triangle({
   adjacent,
 }) {
   const canvas = useRef()
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 480)
+
+  useEffect(() => {
+    const newWidth = window.innerWidth <= 480
+    if (isMobile !== newWidth) {
+      setIsMobile(newWidth)
+    }
+  }, [window.innerWidth])
+
+
+  const thickness = isMobile ? 5 : 1 
+
   useEffect(() => {
     const { width, height } = canvas.current
 
@@ -20,8 +37,8 @@ function Triangle({
       oposing,
       adjacent,
       hypotenuse,
-      maxHeight: 0.7 * height,
-      maxWidth: 0.7 * width,
+      maxHeight: 0.7*height,
+      maxWidth: 0.7*width,
     })
 
     const middle = [(width + maxAdjacent) / 2, (height - maxOposing) / 2]
@@ -37,14 +54,15 @@ function Triangle({
         middle[0] + Math.sign(Math.cos(angle))*(5 + (Math.sign(adjacent) < 0 ? maxOposing.toString().length*5 : 0)),
         (2*middle[1] + maxOposing)/2
       )
-      drawPolygon(ctx, [middle, [middle[0], middle[1] + maxOposing]], 1)
+      drawPolygon(ctx, [middle, [middle[0], middle[1] + maxOposing]], thickness)
       ctx.stroke()
     }
     if (adjacent) {
       ctx.fillText(
         adjacent,
         middle[0] - maxAdjacent/2,
-        middle[1] + maxOposing + Math.sign(Math.sin(angle) + 0.01)*10
+        middle[1] + maxOposing + Math.sign(Math.sin(angle) + 0.01)*10,
+
       )
       drawPolygon(
         ctx,
@@ -52,7 +70,7 @@ function Triangle({
           [middle[0], middle[1] + maxOposing],
           [middle[0] - maxAdjacent, middle[1] + maxOposing]
         ],
-        1
+        thickness
       )
       ctx.stroke()
     }
@@ -68,7 +86,7 @@ function Triangle({
           [middle[0] - maxHypotenuse*Math.cos(angle), middle[1] + maxHypotenuse*Math.sin(angle)],
           middle
         ],
-        1
+        thickness
       )
       ctx.stroke()
     }
