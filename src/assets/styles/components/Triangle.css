@@ -1,0 +1,12 @@
+.Triangle-wrapper {
+  position: relative;
+  display: flex;
+  flex: 1;
+  justify-content: right;
+}
+
+.Canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}

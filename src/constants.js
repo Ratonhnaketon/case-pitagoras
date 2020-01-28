@@ -1,0 +1,3 @@
+export const REQUESTING_MATH = 'REQUESTING_MATH'
+export const SUCCESS_MATH = 'SUCCESS_MATH'
+export const ERROR_MATH = 'ERROR_MATH' 
